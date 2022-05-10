@@ -1,6 +1,9 @@
 language: node_js
 node_js:
-  -12.22
+  -12
+
+  services:
+    -docker
   
  #Pre-testing installs
  install:
@@ -12,10 +15,10 @@ node_js:
   
  script:
   - docker --version # print the version for logging
- - docker build -t simple-node .
-  - docker tag simple-node YOUR_DOCKER_HUB/simple-node:latest
+ - docker build -t travis_ci-simple_node .
+  - docker tag travis_ci-simple_node  jempitman/travis_ci-simple_node:latest
 
 # Tasks to perform after the process is successful. Formatting the Docker username and password as below enables you to programmatically log in without having the password exposed in logs.
 after_success:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push YOUR_DOCKER_HUB/simple-node
+  - docker push jempitman/travis_ci-simple_node
